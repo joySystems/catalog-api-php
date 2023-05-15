@@ -17,7 +17,7 @@ function get_all_categories($url, $user, $pass) {
     }else{
         
         $data_json = json_decode($result, true);
-        //var_dump($data_json);
+       
     }
     
     curl_close($ch);
@@ -55,7 +55,7 @@ function get_category_articles($id, $url, $user, $pass) {
     }else{
         
         $data_json = json_decode($result, true);
-        //var_dump($data_json);
+        
     }
     
     curl_close($ch);
@@ -93,7 +93,7 @@ function get_article($id, $url, $user, $pass) {
     }else{
         
         $data_json = json_decode($result, true);
-        //var_dump($data_json);
+        
     }
     
     curl_close($ch);
@@ -110,6 +110,14 @@ function get_article($id, $url, $user, $pass) {
 
    
 
+}
+
+
+function autoload($className) {
+    $classFile = __DIR__ . '/classes/' . $className . '.php';
+    if (file_exists($classFile)) {
+        require_once $classFile;
+    }
 }
 
 

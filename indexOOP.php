@@ -2,16 +2,22 @@
 // загружаем ресурсы
 require_once('constants.php');
 require_once('functions.php');
+// Подгружаем классы
+spl_autoload_register('autoload');
 
-// Создаем основные переменные
+
 $user = USERNAME;
 $pass = PASSWORD;
 $categories_url = CATS_URL;
 $category_url = CAT_URL;
 $article_url = ART_URL;
 
+// Создаем объект класса HandleApi
+$api_handler = new HandleApi($user, $pass);
+
+
 // Получаем массив категорий
-$data_categories = get_all_categories($categories_url, $user, $pass);
+$data_categories = $api_handler->getApiData($categories_url);
 
 ?>
 
@@ -31,7 +37,6 @@ $data_categories = get_all_categories($categories_url, $user, $pass);
                 <nav>
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
                     <?php
-                    // Выводимодим категории
                     foreach($data_categories as $category) { ?>
                         <a class="nav-item nav-link <?php echo ($category['category_id'] == 1)? "active" : "" ;?>" id="nav-<?php echo $category['category_id'];?>-tab" data-toggle="tab" href="#nav-<?php echo $category['category_id'];?>" role="tab" aria-controls="nav-<?php echo $category['category_id'];?>" aria-selected=<?php echo ($category['category_id'] == 1)? "true" : "false";?>><?php echo $category['name'];?></a>
 
@@ -46,12 +51,11 @@ $data_categories = get_all_categories($categories_url, $user, $pass);
                     <div class="tab-pane fade show <?php echo ($category['category_id'] == 1)? "active" : "" ;?>" id="nav-<?php echo $category['category_id'];?>" role="tabpanel">
                         <div class="row mb-4">
                         <?php
-                                // Получаем список статей из категории
-                            $articles_list = get_category_articles($category['category_id'],$category_url, $user, $pass);
+                            $articles_list = $api_handler->getApiData($category_url.$category['category_id']);
                             
                             foreach($articles_list as $article_item) {
-                                // Загружем и выведем статью
-                                $article = get_article($article_item['article_id'], $article_url, $user, $pass);
+
+                                $article = $api_handler->getApiData($article_url.$article_item['article_id']);
                                 ?>
                             <div class="col-12 mt-3 mb-3">
                                 <h2><?php echo $article['name'];?></h2>
