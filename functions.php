@@ -1,6 +1,6 @@
 <?php
 
-
+// Получение списка категорийы
 function get_all_categories($url, $user, $pass) {
     $ch = curl_init();
 
@@ -34,7 +34,7 @@ function get_all_categories($url, $user, $pass) {
 
 }
 
-
+// Функция получения списка статей
 
 function get_category_articles($id, $url, $user, $pass) {
     
@@ -73,7 +73,7 @@ function get_category_articles($id, $url, $user, $pass) {
 }
 
 
-
+// Функция получения статьи
 function get_article($id, $url, $user, $pass) {
     
     $cat_url = $url.$id;
@@ -112,6 +112,7 @@ function get_article($id, $url, $user, $pass) {
 
 }
 
+// Функция автозагрузки классов
 
 function autoload($className) {
     $classFile = __DIR__ . '/classes/' . $className . '.php';
